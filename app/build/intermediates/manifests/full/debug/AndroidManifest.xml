@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.motiontrackapp"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="22" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.motiontrackapp.LoginScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.FingerCalibInstructions" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibInstructions" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.TwoDCalibTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibInstructions" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.TwoDCalibInstructions" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibInstructions" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.TwoDCalibToTwoDTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibInstructions" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.FingerCalibTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.FingerCalibToTwoDCalib" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.NextBlockFingerCalib" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.TwoDFittsTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.TwoDInstructions" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.LastScreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.NextBlockTwoD" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.motiontrackapp.FFittsAndroidApp.blank" >
+            <intent-filter>
+                <action android:name="android.intent.action.FingerCalibTask" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

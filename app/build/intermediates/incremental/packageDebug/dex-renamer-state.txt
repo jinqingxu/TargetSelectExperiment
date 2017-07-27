@@ -1,0 +1,7 @@
+#Thu Jul 27 15:13:45 EDT 2017
+base.0=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_efd2781150c00d18bd5a5df6f00b2243a63866e1
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_016c9fb94f69fd83e1b35486c55f45afc4e85222/classes.dex
+base.1=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_016c9fb94f69fd83e1b35486c55f45afc4e85222
+file.0=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_efd2781150c00d18bd5a5df6f00b2243a63866e1/classes.dex
