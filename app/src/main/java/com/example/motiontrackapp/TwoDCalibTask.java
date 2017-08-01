@@ -48,6 +48,9 @@ import java.io.OutputStreamWriter;
 
 public class TwoDCalibTask extends Activity  {
 
+    double sumx=0.0;
+    double sumy=0.0;
+    int j=0;
     ImageView imgRedCross;        // Displays the Target
     FrameLayout frame;        // The Total Screen Space
     LinearLayout linLayout;   // Touchable Screen Space
@@ -110,7 +113,7 @@ public class TwoDCalibTask extends Activity  {
 
                     // Calculate the targetX and targetY
 
-                    targetX = screenWidth / 2;
+                    /*targetX = screenWidth / 2;
                     targetY = screenHeight / 2;
                     // target position
                     // todo
@@ -118,7 +121,7 @@ public class TwoDCalibTask extends Activity  {
                         targetY += targetCor[i][1] * targetWidths[0];
                     } else {
                         targetX += targetCor[i][0] * targetWidths[1];
-                    }
+                    }*/
 
                     touchDownX = motionEvent.getX();   // Record the Touch Down x- coordinate Location
                     touchDownY = motionEvent.getY();   // Record the Touch Down y- coordinate Location
@@ -190,7 +193,7 @@ public class TwoDCalibTask extends Activity  {
 
 
                         // different i corresponds to different cross locations
-                        if (!(i < 4)) {
+                        if (!(i < 6)) {
                             mp.release();
                             startActivity(new Intent(TwoDCalibTask.this, TwoDCalibToTwoDTask.class));
                         } else {
@@ -291,8 +294,19 @@ public class TwoDCalibTask extends Activity  {
 
     // Check if the touch point (selection) is inside the target
     private boolean isSelectionHit(double X, double Y) {
-
-        if (distance(X, Y, targetX, targetY) <= length/2 )
+        double tmp=Y;
+        System.out.println(tmp);
+        sumx+=X;
+        sumy+=Y;
+        j++;
+        if(j==10){
+            double ax=sumx/10.0;
+            double ay=sumy/10.0;
+            System.out.println(ax);
+            System.out.println(ay);
+        }
+        if (distance(X, Y, targetX, targetY) <= length )
+        //if (distance(X, Y, targetX, targetY) <= length/2 )
             return true;
 
         return false;
@@ -318,6 +332,34 @@ public class TwoDCalibTask extends Activity  {
             targetY += targetCor[i][1] * targetWidths[0];}
         else{
             targetX += targetCor[i][0] * targetWidths[1];}
+
+        //the center point
+        if(i==0){
+            targetX=screenWidth/2;
+            targetY=screenHeight/2;
+        }
+        //some edge points
+        if(i==1){
+            targetX=screenWidth;
+            targetY=0;
+        }
+        if(i==2){
+            targetX=screenWidth;
+            targetY=screenHeight;
+        }
+        if(i==3){
+            targetX=0;
+            targetY=screenHeight;
+        }
+        if(i==4){
+            targetX=screenWidth/2;
+            targetY=0;
+        }
+        //the center point
+        if(i==5){
+            targetX=screenWidth/2;
+            targetY=screenHeight/2;
+        }
 
 
 

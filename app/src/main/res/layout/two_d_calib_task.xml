@@ -5,17 +5,23 @@
     android:layout_height="match_parent"
     android:background="#ffffffff"
     android:id="@+id/frameLayoutFinger2DCalib"
-
     >
 
 
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffffff"
         android:orientation="vertical"
         android:id="@+id/linLayoutFinger2DCalib"
+        >-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linLayoutFinger2DCalib"
+
 
         >
 
