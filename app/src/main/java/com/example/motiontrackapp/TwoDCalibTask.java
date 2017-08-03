@@ -136,9 +136,12 @@ public class TwoDCalibTask extends Activity  {
                         //streamID= sp.play(count, 1, 1, 0, 0, 1);  //streamID is used for stopping the count tone
                         try {
                             //mp.setDataSource("/Users/carmen/Documents/CarmenGoing/FFittsAndroidApp/app/src/main/res/raw/count");
+
                             mp = MediaPlayer.create(TwoDCalibTask.this, R.raw.count);
                             //mp.prepare();
                             mp.start();
+                            //try to make the touch time shorter so that it can be more accurate
+
                         } catch (IllegalArgumentException e) {
                             e.printStackTrace();
                         }

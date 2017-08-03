@@ -71,8 +71,8 @@ public class LoginScreen extends Activity {
                     //initializeLeapMotion();   // LEAP MOTION CODE STOPS THE ANDROID APP NEED TO FIX
  
                    // startActivity(new Intent(LoginScreen.this,FingerCalibInstructions.class)); // switch to next activity
-                   // startActivity(new Intent(LoginScreen.this,TwoDInstructions.class)); // switch to next activity
-                    startActivity(new Intent(LoginScreen.this,TwoDCalibInstructions.class)); // switch to next activity
+                    startActivity(new Intent(LoginScreen.this,TwoDInstructions.class)); // switch to next activity
+                    //startActivity(new Intent(LoginScreen.this,TwoDCalibInstructions.class)); // switch to next activity
 
                 }
 

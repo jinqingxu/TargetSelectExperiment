@@ -69,6 +69,14 @@ public class TwoDFittsTask extends Activity  {
     int [] targetAngles = {0,45,90,135,180,225,270,315};
     // int [] targetDistances = {20, 30};
     int [] targetDistances = {270, 378};   //  Nexus: mm to px in xxhdpi: 20 mm, 30 mm
+    //the max distance of 0 degree is 920 pixel
+    //the max distance of 45 is 850 pixel
+    //the max distance of 90 is 550 pixel
+    //the max distance of 135 is 850 pixel
+    //the max distance of 180 is 920 pixel
+    //the max distance of 225 is 850 pixel
+    //the max distance of 270 is 490 pixel
+    //the max distance of 315 is 850 pixel
     //int [] targetDistances = {378, 567};   //  Nexus: mm to px in xxhdpi
     //int [] targetDistances = {240, 290};   //  Samsung: mm to px in xxhdpi
 
@@ -81,7 +89,8 @@ public class TwoDFittsTask extends Activity  {
     // 1 inch = 2.54 cm
     // 1 cm = 320/2.54 pixel
     // 1 mm = 12.5984252 pixel
-    double [] targetWidths = {61, 91, 116,154};  // Current Tab: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22mm
+    // 1 pixel = 0.0794 mm
+    double [] targetWidths = {61, 91, 116,154};  // Current Tab: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22m
     //double [] targetWidths = {86, 110, 158};   // Nexus: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22mm
     //double [] targetWidths = {4.8, 7.2, 9.2};
     //double [] targetWidths = {58, 86, 110};   // Samsung: mm to px in xxhdpi
