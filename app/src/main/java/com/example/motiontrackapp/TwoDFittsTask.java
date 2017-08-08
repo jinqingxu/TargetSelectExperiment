@@ -61,14 +61,14 @@ public class TwoDFittsTask extends Activity  {
     Bitmap bmp;
     Canvas canvas;
     Paint paint;
-
+    double pixelTomm=0.0794;
     private SoundPool sp;  // plays audio resources
     private int rightSound, wrongSound; // 2 kinds of audio resources
 
     TaskConditionsArray targetArray;
     int [] targetAngles = {0,45,90,135,180,225,270,315};
     // int [] targetDistances = {20, 30};
-    int [] targetDistances = {270, 378};   //  Nexus: mm to px in xxhdpi: 20 mm, 30 mm
+    int [] targetDistances = {252, 504};   //  Nexus: mm to px in xxhdpi: 20 mm, 40 mm
     //the max distance of 0 degree is 920 pixel
     //the max distance of 45 is 850 pixel
     //the max distance of 90 is 550 pixel
@@ -90,7 +90,8 @@ public class TwoDFittsTask extends Activity  {
     // 1 cm = 320/2.54 pixel
     // 1 mm = 12.5984252 pixel
     // 1 pixel = 0.0794 mm
-    double [] targetWidths = {61, 91, 116,154};  // Current Tab: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22m
+    //double [] targetWidths = {61, 91, 116,154};  // Current Tab: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22m
+    double [] targetWidths = {61, 91, 116};
     //double [] targetWidths = {86, 110, 158};   // Nexus: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22mm
     //double [] targetWidths = {4.8, 7.2, 9.2};
     //double [] targetWidths = {58, 86, 110};   // Samsung: mm to px in xxhdpi
@@ -98,7 +99,7 @@ public class TwoDFittsTask extends Activity  {
     //int max_trial = targetAngles.length * targetDistances.length * targetWidths.length;
     public static int maxTrial = 0; // record the max trial for each block, static because it should be calculated in another class
     int trialBlock_maxTrial = 1;
-    int fullBlock_maxTrial = 10;
+    int fullBlock_maxTrial = 48;
     int maxBlock = 2;
 
     int group = 0; // 1 represents older adults, while 2 represents young people
@@ -168,7 +169,7 @@ public class TwoDFittsTask extends Activity  {
 
             	if (event.getAction() == MotionEvent.ACTION_MOVE){
 
-                	//calculateTRE(event.getX(), event.getY());  // compare the current X Y and the last X Y to ensure if this is a reEntry                    
+                	calculateTRE(event.getX(), event.getY());  // compare the current X Y and the last X Y to ensure if this is a reEntry
                	}
 
             	/******************************************************
@@ -328,7 +329,7 @@ public class TwoDFittsTask extends Activity  {
 
         // REQUIRED FOR TRE FROM ACTION_DOWN:
         
-        entry = reEntry = 0;
+        //entry = reEntry = 0;
         
         // REQUIRED FOR TRE FROM ACTION_UP:
 
@@ -699,9 +700,10 @@ public class TwoDFittsTask extends Activity  {
 
             FileOutputStream file = openFileOutput( "PId_" + pid + "_TwoDFittsData_Internal.csv", Context.MODE_APPEND | Context.MODE_WORLD_READABLE);
             OutputStreamWriter out = new OutputStreamWriter(file);
-
+            double targetDistanceMM=targetDistance*pixelTomm;
+            double targetWidthMM=targetWidth*pixelTomm;
             try {
-                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+ targetWidth + ","  + targetAngle  + "," + select + "," + attempt + "," + error1+","+SlipError1+","+ NarrowSlipError1+","+ModerateSlipError1+","+LargeSlipError1+","+VeryLargeSlipError1+","+MissError1+","+NearMissError1+","+NotSoNearMissError1+","+OtherError1+","+AccidentalTap1+","+AccidentalHit1 + ","+pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE );
+                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+AccidentalTap1+","+AccidentalHit1 + ","+pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE );
                 out.write('\n');
                 out.close();
 
@@ -734,12 +736,14 @@ public class TwoDFittsTask extends Activity  {
             }
 
             File file = new File(Dir, fileName);
+            double targetDistanceMM=targetDistance*pixelTomm;
+            double targetWidthMM=targetWidth*pixelTomm;
 
             try{
 
                 BufferedWriter out = new BufferedWriter(new FileWriter(file, true));   //  FileWriter(file, true ) appends on the file
 
-                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+ targetWidth + ","  + targetAngle  + "," + select + "," + attempt + ","+error1+","+SlipError1+","+ NarrowSlipError1+","+ModerateSlipError1+","+LargeSlipError1+","+VeryLargeSlipError1+","+MissError1+","+NearMissError1+","+NotSoNearMissError1+","+OtherError1+","+AccidentalTap1+","+AccidentalHit1 + ","+ pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+startTime +","+firstreEntry +"," + TRE);
+                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + ","+error1+","+AccidentalTap1+","+AccidentalHit1 + ","+ pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," +startTime +","+ firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
                 out.write('\n');
                 out.close();
 

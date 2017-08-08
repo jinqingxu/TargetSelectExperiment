@@ -54,7 +54,7 @@ public class TwoDCalibTask extends Activity  {
     ImageView imgRedCross;        // Displays the Target
     FrameLayout frame;        // The Total Screen Space
     LinearLayout linLayout;   // Touchable Screen Space
-
+    int block,trial=0;
     private SoundPool sp;  // plays audio resources
     private int right, wrong, count ; // audio resources
     private MediaPlayer mp = new MediaPlayer();
@@ -220,8 +220,8 @@ public class TwoDCalibTask extends Activity  {
     // Do these common series of tasks after a successful or unsuccessful target selection
     private void doAfterTouch() {
 
-
-        // mark down touchDown liftUp locations and target X Y
+            trial++;
+            // mark down touchDown liftUp locations and target X Y
             writeDataInternal();  // Write Trial data in the internal "FingerCalibData.csv" file
             writeDataExternal();  // // Write Trial data in the External "FingerCalibData_External.csv" file
 
@@ -234,13 +234,14 @@ public class TwoDCalibTask extends Activity  {
 
         try {
 
-            FileOutputStream file = openFileOutput( "PId_" + pid +  "_2D_Fitts_Detailed_Trial_Data_Internal.csv", Context.MODE_APPEND | Context.MODE_WORLD_READABLE);
+            //FileOutputStream file = openFileOutput( "PId_" + pid +  "_2D_Fitts_Detailed_Trial_Data_Internal.csv", Context.MODE_APPEND | Context.MODE_WORLD_READABLE);
+            FileOutputStream file = openFileOutput( "PId_" + pid +  "_FingerCalibData_Internal.csv", Context.MODE_APPEND | Context.MODE_WORLD_READABLE);
             OutputStreamWriter out = new OutputStreamWriter(file);
 
             try {
 
                 // some data do not include here so " " is used to fill in the blank
-                out.write(" "+","+pid + "," + " " + "," + " " + "," +   " " + ","+ " "+ ","  + " " + "," + " " + ","+" "+","+" "+","+ " "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" " +","+pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","  + " " + ","  + RelativeLiftUpXfromTarget + ","  + liftUpY + ","  + " " + ","  + RelativeLiftUpYfromTarget + ","  + " "+ ","  +" "+ ","  + " " + "," + " " + "," + touchDownTimeStamp + "," + liftUpTimeStamp+ "," + " " + ","+ " " +"," + " " +"," + " " );
+                out.write(pid + "," + block + "," + trial + "," +   " " + ","+ " "+ ","  + " " + "," +pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","  + " " + ","  + RelativeLiftUpXfromTarget + ","  + liftUpY + ","  + " " + ","  + RelativeLiftUpYfromTarget + ","  + " "+ ","  +" "+ ","  + " " + "," + " " + "," + touchDownTimeStamp + "," + liftUpTimeStamp+ "," + " " + ","+ " " +"," + " " +"," + " " );
                 out.write('\n');
                 out.close();
 
@@ -259,7 +260,7 @@ public class TwoDCalibTask extends Activity  {
     // Write Trial data in the External "FingerCalibData.csv" file
     public void writeDataExternal() {
 
-        String fileName =  "PId_" + pid +  "_2D_FittsDetailedTrialData_External.csv";
+        String fileName =  "PId_" + pid +  "_FingerCalibData_External.csv";
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   // If the External Storage is Mounted, then write on the file
 
@@ -277,7 +278,7 @@ public class TwoDCalibTask extends Activity  {
                 BufferedWriter out = new BufferedWriter(new FileWriter(file, true));  //  FileWriter(file, true ) appends on the file
 
                 // some data do not include here so " " is used to fill in the blank
-                out.write(" "+","+pid + "," + " " + "," + " " + "," +   " " + ","+ " "+ ","  + " " + "," + " " + ","+" "+","+" "+","+ " "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" "+","+" " +","+pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","  + " " + ","  + RelativeLiftUpXfromTarget + ","  + liftUpY + ","  + " " + ","  + RelativeLiftUpYfromTarget + ","  + " "+ ","  +" "+ ","  + " " + "," + " " + "," + touchDownTimeStamp + "," + liftUpTimeStamp+ "," + " " + ","+ " " +"," + " " +"," + " " );
+                out.write(pid + "," + block + "," + trial + "," +" " + ","+ " "+ ","  + " " + "," +pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","   + RelativeLiftUpXfromTarget + ","  + liftUpY + ","    + RelativeLiftUpYfromTarget + ","  + touchDownTimeStamp + "," + liftUpTimeStamp+ "," );
                 out.write('\n');
                 out.close();
 
@@ -329,7 +330,7 @@ public class TwoDCalibTask extends Activity  {
 
         targetX = screenWidth / 2;
         targetY = screenHeight / 2;
-
+        int width=504;//40mm
         // draw different targets (according to the correspondent target X Y in 2D Fitts Task)
         if(i<3){
             targetY += targetCor[i][1] * targetWidths[0];}
@@ -343,20 +344,20 @@ public class TwoDCalibTask extends Activity  {
         }
         //some edge points
         if(i==1){
-            targetX=screenWidth;
-            targetY=0;
+            targetX=screenWidth/2+width;
+            targetY=screenHeight/2;
         }
         if(i==2){
-            targetX=screenWidth;
-            targetY=screenHeight;
+            targetX=screenWidth/2;
+            targetY=screenHeight/2-width;
         }
         if(i==3){
-            targetX=0;
-            targetY=screenHeight;
+            targetX=screenWidth/2-width;
+            targetY=screenHeight/2;
         }
         if(i==4){
             targetX=screenWidth/2;
-            targetY=0;
+            targetY=screenHeight/2+width;
         }
         //the center point
         if(i==5){
