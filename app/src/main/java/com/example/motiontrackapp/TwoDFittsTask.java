@@ -61,14 +61,31 @@ public class TwoDFittsTask extends Activity  {
     Bitmap bmp;
     Canvas canvas;
     Paint paint;
-    double pixelTomm=0.0794;
     private SoundPool sp;  // plays audio resources
     private int rightSound, wrongSound; // 2 kinds of audio resources
 
     TaskConditionsArray targetArray;
-    int [] targetAngles = {0,45,90,135,180,225,270,315};
-    // int [] targetDistances = {20, 30};
-    int [] targetDistances = {252, 504};   //  Nexus: mm to px in xxhdpi: 20 mm, 40 mm
+    //int [] targetAngles = {0,45,90,135,180,225,270,315};
+    int [] targetAngles = {0,0,0,0,180,180,180,180};
+
+    //double pixelTomm=  0.0794;       //Irene
+    double pixelTomm=0.088194;     // website
+    //int [] targetDistances = {252, 504};   //  Irene: mm to px in xxhdpi: 20 mm, 40 mm
+    //int [] targetDistances = {227,454};     //webiste
+    int [] targetDistances = {227,227};     //webiste
+    // new pixel calculated by Irene
+    // DPI means how manys pixels per inch
+    // 1 inch = 320 pixel
+    // 1 inch = 2.54 cm
+    // 1 cm = 320/2.54 pixel
+    // 1 mm = 12.5984252 pixel
+    // 1 pixel = 0.0794 mm
+   // double [] targetWidths = {61, 91, 116};  // Irene: mm to px in xxhdpi: 4.88 mm  7.22 mm 9.22 mm 12.22mm(154)
+    // pixel data from website
+    // 1 mm = 11.3385827 pixel
+    //double [] targetWidths = {55.33228,81.86457,104.54173}; //webiste
+    double [] targetWidths = {55.33,55.33,55.33}; //webiste
+
     //the max distance of 0 degree is 920 pixel
     //the max distance of 45 is 850 pixel
     //the max distance of 90 is 550 pixel
@@ -77,30 +94,12 @@ public class TwoDFittsTask extends Activity  {
     //the max distance of 225 is 850 pixel
     //the max distance of 270 is 490 pixel
     //the max distance of 315 is 850 pixel
-    //int [] targetDistances = {378, 567};   //  Nexus: mm to px in xxhdpi
-    //int [] targetDistances = {240, 290};   //  Samsung: mm to px in xxhdpi
-
-
-    // find the pixel
-    // new pixel calculated by Irene
-    // the DPI of screen is 320
-    // DPI means how manys pixels per inch
-    // 1 inch = 320 pixel
-    // 1 inch = 2.54 cm
-    // 1 cm = 320/2.54 pixel
-    // 1 mm = 12.5984252 pixel
-    // 1 pixel = 0.0794 mm
-    //double [] targetWidths = {61, 91, 116,154};  // Current Tab: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22m
-    double [] targetWidths = {61, 91, 116};
-    //double [] targetWidths = {86, 110, 158};   // Nexus: mm to px in xxhdpi: 4.88 mm, 7.22 mm, 9.22 mm 12.22mm
-    //double [] targetWidths = {4.8, 7.2, 9.2};
-    //double [] targetWidths = {58, 86, 110};   // Samsung: mm to px in xxhdpi
 
     //int max_trial = targetAngles.length * targetDistances.length * targetWidths.length;
     public static int maxTrial = 0; // record the max trial for each block, static because it should be calculated in another class
     int trialBlock_maxTrial = 1;
-    int fullBlock_maxTrial = 48;
-    int maxBlock = 2;
+    int fullBlock_maxTrial = 5;
+    int maxBlock = 3;
 
     int group = 0; // 1 represents older adults, while 2 represents young people
     int error ,SlipError , NarrowSlipError ,ModerateSlipError , LargeSlipError, VeryLargeSlipError, MissError,NearMissError,NotSoNearMissError,AccidentalTap,OtherError, AccidentalHit;
@@ -339,14 +338,15 @@ public class TwoDFittsTask extends Activity  {
         else{reEntry=0;}
 
         if(attempt == 1){
-
-            firstreEntry = reEntry;}   // if entry=1,reEntry=0, means succeed
+            firstreEntry = reEntry;
+        }   // if entry=1,reEntry=0, means succeed
                                     // if entry =0, reEntry=-1, means unsuccessful, even didn't touch the boundary
                                     // if reEntry>0, can add it to the reEntryTotal, which records the total reEntry in all attempts for this trial
 
         /////////////////////// TRE END //////
         
-        TRE = (float)firstreEntry/attempt; // TRE is the average reEntry times for each trial
+        //TRE = (float)firstreEntry/attempt; // TRE is the average reEntry times for each trial
+        TRE = (float)reEntry/attempt; // TRE is the average reEntry times for each trial (make some changes based on the original code)
 
        
     }   // END OF calculateTRE(double corX, double corY) 
@@ -360,7 +360,7 @@ public class TwoDFittsTask extends Activity  {
     	TRE = 0;  // Set TRE back to 0
     
     	trial++;      // Increase the trial number
-    
+
     	chronoMeter.start();    // Start the timer
     	startTime = System.currentTimeMillis();  // start counting the time
     	chronoMeter.setBase(SystemClock.elapsedRealtime()+ startChronometer); // set the chrono meter from 0
@@ -703,7 +703,7 @@ public class TwoDFittsTask extends Activity  {
             double targetDistanceMM=targetDistance*pixelTomm;
             double targetWidthMM=targetWidth*pixelTomm;
             try {
-                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+AccidentalTap1+","+AccidentalHit1 + ","+pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE );
+                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE );
                 out.write('\n');
                 out.close();
 
@@ -742,8 +742,7 @@ public class TwoDFittsTask extends Activity  {
             try{
 
                 BufferedWriter out = new BufferedWriter(new FileWriter(file, true));   //  FileWriter(file, true ) appends on the file
-
-                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + ","+error1+","+AccidentalTap1+","+AccidentalHit1 + ","+ pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," +startTime +","+ firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
+                out.write(group+","+pid + "," + block + "," + trial + "," + targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," +startTime +","+ firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
                 out.write('\n');
                 out.close();
 
@@ -772,9 +771,10 @@ public class TwoDFittsTask extends Activity  {
 
             FileOutputStream file = openFileOutput( "PId_" + pid +  "_2D_Fitts_Detailed_Trial_Data_Internal.csv", Context.MODE_APPEND | Context.MODE_WORLD_READABLE);
             OutputStreamWriter out = new OutputStreamWriter(file);
-
+            double targetWidthMM=targetWidth*pixelTomm;
+            double targetDistanceMM=targetDistance*pixelTomm;
             try {
-               out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+ targetWidth + ","  + targetAngle + "," + attempt + ","+error+","+SlipError+","+ NarrowSlipError+","+ModerateSlipError+","+LargeSlipError+","+VeryLargeSlipError+","+MissError+","+NearMissError+","+NotSoNearMissError+","+OtherError+","+AccidentalTap+","+AccidentalHit +","+pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","  + RelativeLiftUpXfromStart + ","  + RelativeLiftUpXfromTarget + ","  + liftUpY + ","  + RelativeLiftUpYfromStart + ","  + RelativeLiftUpYfromTarget + ","  +FinalTouchDownFromTarget+ ","  +FinalLiftUpFromTarget+ ","  + currentTrialTouchDownTimeTaken + "," + currentTrialLiftUpTimeTaken + "," + currentTrialTouchDownTimeStamp + "," + currentTrialLiftUpTimeStamp+ "," + startTime + ","+ startX +"," + startY +"," + reEntry  );
+               out.write(pid + "," + block + "," + trial + "," +attempt+","+ targetWidth+","+targetWidthMM+ ","+targetDistance+","+targetDistanceMM + ","  + targetAngle + ","+pressure+","+currentTrialTouchDownTimeStamp+","+currentTrialLiftUpTimeStamp+","+touchDownX+","+touchDownY+","+liftUpX+","+liftUpY);
                 out.write('\n');
                 out.close();
 
@@ -794,7 +794,7 @@ public class TwoDFittsTask extends Activity  {
 
     public void writeTouchLocationDataExternal(){
 
-        String fileName =  "PId_" + pid +  "_2D_FittsDetailedTrialData_External.csv";
+        String fileName =  "PId_" + pid +  "_2D_FittsDetailed_Trial_Data_External.csv";
 
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){   // If the External Storage is Mounted, then write on the file
 
@@ -808,8 +808,10 @@ public class TwoDFittsTask extends Activity  {
             try{
 
                 BufferedWriter	out = new BufferedWriter(new FileWriter(file, true));   //  FileWriter(file, true ) appends on the file
-
-                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+ targetWidth + ","  + targetAngle  + ","  + attempt + ","+error+","+SlipError+","+ NarrowSlipError+","+ModerateSlipError+","+LargeSlipError+","+VeryLargeSlipError+","+MissError+","+NearMissError+","+NotSoNearMissError+","+OtherError+","+AccidentalTap+","+AccidentalHit +","+pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","  + RelativeLiftUpXfromStart + ","  + RelativeLiftUpXfromTarget + ","  + liftUpY + ","  + RelativeLiftUpYfromStart + ","  + RelativeLiftUpYfromTarget + ","  +FinalTouchDownFromTarget+ ","  +FinalLiftUpFromTarget+ ","  + currentTrialTouchDownTimeTaken + "," + currentTrialLiftUpTimeTaken + "," + currentTrialTouchDownTimeStamp + "," + currentTrialLiftUpTimeStamp+ "," + startTime + ","+ startX +"," + startY + "," + reEntry );
+                double targetWidthMM=targetWidth*pixelTomm;
+                double targetDistanceMM=targetDistance*pixelTomm;
+                //out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+ targetWidth + ","  + targetAngle  + ","  + attempt + ","+error+","+SlipError+","+ NarrowSlipError+","+ModerateSlipError+","+LargeSlipError+","+VeryLargeSlipError+","+MissError+","+NearMissError+","+NotSoNearMissError+","+OtherError+","+AccidentalTap+","+AccidentalHit +","+pressure + ","  + targetX+ ","  +targetY + ","  + touchDownX + ","  + RelativeTouchDownXfromTarget + ","  + touchDownY + ","  + RelativeTouchDownYfromTarget + ","  +liftUpX + ","  + RelativeLiftUpXfromStart + ","  + RelativeLiftUpXfromTarget + ","  + liftUpY + ","  + RelativeLiftUpYfromStart + ","  + RelativeLiftUpYfromTarget + ","  +FinalTouchDownFromTarget+ ","  +FinalLiftUpFromTarget+ ","  + currentTrialTouchDownTimeTaken + "," + currentTrialLiftUpTimeTaken + "," + currentTrialTouchDownTimeStamp + "," + currentTrialLiftUpTimeStamp+ "," + startTime + ","+ startX +"," + startY + "," + reEntry );
+                out.write(pid + "," + block + "," + trial + "," +attempt+","+ targetWidth+","+targetWidthMM+ ","+targetDistance+","+targetDistanceMM + ","  + targetAngle + ","+pressure+","+currentTrialTouchDownTimeStamp+","+currentTrialLiftUpTimeStamp+","+touchDownX+","+touchDownY+","+liftUpX+","+liftUpY);
                 out.write('\n');
                 out.close();
 
@@ -876,7 +878,7 @@ public class TwoDFittsTask extends Activity  {
         //If more blocks left, then go to the Next Block Screen, Otherwise Exit
 
         else{
-
+            int t=0;
             // Write the score in the score.txt file
             try{
 
