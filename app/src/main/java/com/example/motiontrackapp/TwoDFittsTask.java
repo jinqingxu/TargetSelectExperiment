@@ -65,14 +65,15 @@ public class TwoDFittsTask extends Activity  {
     private int rightSound, wrongSound; // 2 kinds of audio resources
 
     TaskConditionsArray targetArray;
-    //int [] targetAngles = {0,45,90,135,180,225,270,315};
-    int [] targetAngles = {0,0,0,0,180,180,180,180};
+    int [] targetAngles = {0,45,90,135,180,225,270,315,360};
+    //int [] targetAngles = {0,0,0,0,180,180,180,180};
 
     //double pixelTomm=  0.0794;       //Irene
     double pixelTomm=0.088194;     // website
     //int [] targetDistances = {252, 504};   //  Irene: mm to px in xxhdpi: 20 mm, 40 mm
     //int [] targetDistances = {227,454};     //webiste
-    int [] targetDistances = {227,227};     //webiste
+    int [] targetDistances = {227,454};     //webiste
+
     // new pixel calculated by Irene
     // DPI means how manys pixels per inch
     // 1 inch = 320 pixel
@@ -84,7 +85,7 @@ public class TwoDFittsTask extends Activity  {
     // pixel data from website
     // 1 mm = 11.3385827 pixel
     //double [] targetWidths = {55.33228,81.86457,104.54173}; //webiste
-    double [] targetWidths = {55.33,55.33,55.33}; //webiste
+    double [] targetWidths = {55.33,81.86,104.54}; //webiste
 
     //the max distance of 0 degree is 920 pixel
     //the max distance of 45 is 850 pixel
@@ -98,8 +99,8 @@ public class TwoDFittsTask extends Activity  {
     //int max_trial = targetAngles.length * targetDistances.length * targetWidths.length;
     public static int maxTrial = 0; // record the max trial for each block, static because it should be calculated in another class
     int trialBlock_maxTrial = 1;
-    int fullBlock_maxTrial = 5;
-    int maxBlock = 3;
+    int fullBlock_maxTrial =48 ;
+    int maxBlock = 1;
 
     int group = 0; // 1 represents older adults, while 2 represents young people
     int error ,SlipError , NarrowSlipError ,ModerateSlipError , LargeSlipError, VeryLargeSlipError, MissError,NearMissError,NotSoNearMissError,AccidentalTap,OtherError, AccidentalHit;
@@ -119,8 +120,8 @@ public class TwoDFittsTask extends Activity  {
     public static long touchDownAll,  liftUpAll; // record the total time needed, set static so that it can be used in another class
     String pid;
     boolean ongoingTrial = false;
-
- 
+    double firstTouchDownX,firstTouchDownY,firstLiftUpX,firstLiftUpY;
+    double startXmm,startYmm,targetXmm,targetYmm; // written into the file
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +203,8 @@ public class TwoDFittsTask extends Activity  {
                     if(attempt == 1){
                         firstTrialTouchDownTimeTaken = currentTrialTouchDownTimeTaken;  // 1 attempt means totally succeed, so first = final = this time;
                         firstTrialTouchDownTimeStamp = currentTrialTouchDownTimeStamp;
+                        firstTouchDownX=touchDownX;
+                        firstTouchDownY=touchDownY;
                     }
                 }   // End of if (event.getAction() == MotionEvent.ACTION_DOWN)
 
@@ -228,6 +231,8 @@ public class TwoDFittsTask extends Activity  {
                     if(attempt == 1){                   	
                         firstTrialLiftUpTimeStamp = currentTrialLiftUpTimeStamp;
                         firstTrialLiftUpTimeTaken = currentTrialLiftUpTimeTaken;
+                        firstLiftUpX=liftUpX;
+                        firstLiftUpY=liftUpY;
 
                     }
                      
@@ -377,23 +382,15 @@ public class TwoDFittsTask extends Activity  {
         SlipError = NarrowSlipError = ModerateSlipError = LargeSlipError = VeryLargeSlipError = 0;
         MissError = NearMissError = NotSoNearMissError = OtherError = AccidentalTap = 0;
         AccidentalHit = 0;
-        
-
-    	
     	// if LiftUpX and LiftUpY inside the target, then it is not an Error
         // Set all the error = 0;
-    	
         if(isSelectionInsideTarget(liftUpX, liftUpY)){
-           
             error = 0;
             SlipError = NarrowSlipError = ModerateSlipError = LargeSlipError = VeryLargeSlipError = 0;
             MissError = NearMissError = NotSoNearMissError = OtherError = AccidentalTap = 0;
         }
-        
-        
         // Otherwise, it is an Error        
         // Determine if the Error is a Slip Error or a Miss Error
-        
         else{
         	
         	error = 1;   // If selection outside the target, then it is an error
@@ -552,7 +549,7 @@ public class TwoDFittsTask extends Activity  {
         SlipError = NarrowSlipError = ModerateSlipError = LargeSlipError = VeryLargeSlipError = MissError =0;
         MissError = NearMissError = NotSoNearMissError = OtherError = AccidentalTap =0;
         AccidentalHit =0;
-        entry = reEntry  = firstreEntry =0;
+        entry = reEntry = firstreEntry =0;
         TRE = 0;
         
         getPid(); 		// Read the participant id from the "pid.txt" file        
@@ -643,6 +640,7 @@ public class TwoDFittsTask extends Activity  {
     public void calculateStartCenter(){
         startX = frame.getWidth()/2;
         startY = frame.getHeight()/2;
+        int t=0;
     }
 
     // Draw a target with given angle, distance and width
@@ -702,8 +700,12 @@ public class TwoDFittsTask extends Activity  {
             OutputStreamWriter out = new OutputStreamWriter(file);
             double targetDistanceMM=targetDistance*pixelTomm;
             double targetWidthMM=targetWidth*pixelTomm;
+            startXmm=startX*pixelTomm;
+            startYmm=startY*pixelTomm;
+            targetXmm=targetX*pixelTomm;
+            targetYmm=targetY*pixelTomm;
             try {
-                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE );
+                out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+pressure + "," + firstTouchDownX + "," + firstTouchDownY + "," + firstLiftUpX + "," + firstLiftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE);
                 out.write('\n');
                 out.close();
 
@@ -742,7 +744,7 @@ public class TwoDFittsTask extends Activity  {
             try{
 
                 BufferedWriter out = new BufferedWriter(new FileWriter(file, true));   //  FileWriter(file, true ) appends on the file
-                out.write(group+","+pid + "," + block + "," + trial + "," + targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + pressure + "," + touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," +startTime +","+ firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
+                out.write(group+","+pid + "," + block + "," + trial + "," + targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + pressure + "," +startTime +","+targetX+","+targetY+","+ touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
                 out.write('\n');
                 out.close();
 
@@ -878,7 +880,7 @@ public class TwoDFittsTask extends Activity  {
         //If more blocks left, then go to the Next Block Screen, Otherwise Exit
 
         else{
-            int t=0;
+
             // Write the score in the score.txt file
             try{
 
