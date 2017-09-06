@@ -63,7 +63,7 @@ public class TwoDCalibTask extends Activity  {
 
     // int streamID; // to stop the soundpool
     double pressure = 0;
-    double length = 100; // the half length of the cross
+    double length = 50; // the half length of the cross
 
     long touchDownTimeStamp, liftUpTimeStamp;
     double touchDownX, touchDownY, liftUpX, liftUpY, targetX, targetY,RelativeLiftUpXfromTarget,RelativeLiftUpYfromTarget,RelativeTouchDownXfromTarget,RelativeTouchDownYfromTarget;
@@ -309,7 +309,7 @@ public class TwoDCalibTask extends Activity  {
             System.out.println(ax);
             System.out.println(ay);
         }
-        if (distance(X, Y, targetX, targetY) <= length )
+        if (distance(X, Y, targetX, targetY) <= length/3 )
         //if (distance(X, Y, targetX, targetY) <= length/2 )
             return true;
 

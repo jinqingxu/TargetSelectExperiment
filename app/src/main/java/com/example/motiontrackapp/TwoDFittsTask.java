@@ -12,6 +12,24 @@
 
 package com.example.motiontrackapp;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.text.SimpleDateFormat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +63,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-
+import org.apache.commons.net.time.TimeTCPClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TwoDFittsTask extends Activity  {
 
@@ -65,14 +85,14 @@ public class TwoDFittsTask extends Activity  {
     private int rightSound, wrongSound; // 2 kinds of audio resources
 
     TaskConditionsArray targetArray;
-    int [] targetAngles = {0,45,90,135,180,225,270,315,360};
-    //int [] targetAngles = {0,0,0,0,180,180,180,180};
+    //int [] targetAngles = {0,45,90,135,180,225,270,315,360};
+    int [] targetAngles = {0,0,0,0,180,180,180,180};
 
     //double pixelTomm=  0.0794;       //Irene
     double pixelTomm=0.088194;     // website
     //int [] targetDistances = {252, 504};   //  Irene: mm to px in xxhdpi: 20 mm, 40 mm
     //int [] targetDistances = {227,454};     //webiste
-    int [] targetDistances = {227,454};     //webiste
+    int [] targetDistances = {227,227};     //webiste
 
     // new pixel calculated by Irene
     // DPI means how manys pixels per inch
@@ -85,7 +105,7 @@ public class TwoDFittsTask extends Activity  {
     // pixel data from website
     // 1 mm = 11.3385827 pixel
     //double [] targetWidths = {55.33228,81.86457,104.54173}; //webiste
-    double [] targetWidths = {55.33,81.86,104.54}; //webiste
+    double [] targetWidths = {55.33,55.33,55.33}; //webiste
 
     //the max distance of 0 degree is 920 pixel
     //the max distance of 45 is 850 pixel
@@ -99,7 +119,7 @@ public class TwoDFittsTask extends Activity  {
     //int max_trial = targetAngles.length * targetDistances.length * targetWidths.length;
     public static int maxTrial = 0; // record the max trial for each block, static because it should be calculated in another class
     int trialBlock_maxTrial = 1;
-    int fullBlock_maxTrial =48 ;
+    int fullBlock_maxTrial =10 ;
     int maxBlock = 1;
 
     int group = 0; // 1 represents older adults, while 2 represents young people
@@ -123,6 +143,10 @@ public class TwoDFittsTask extends Activity  {
     double firstTouchDownX,firstTouchDownY,firstLiftUpX,firstLiftUpY;
     double startXmm,startYmm,targetXmm,targetYmm; // written into the file
 
+    private static final Object TAG = new Object();
+    long initialSystemTime=0;
+    long initialTimeStamp=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -131,6 +155,7 @@ public class TwoDFittsTask extends Activity  {
         setContentView(R.layout.two_d_fitts_task);
 
         initializeEverything();         // Initialize Everything in the Layout and Activity
+
 
         // Start a 2-D Fitts Task
 
@@ -184,8 +209,10 @@ public class TwoDFittsTask extends Activity  {
             	
                 if (event.getAction() == MotionEvent.ACTION_DOWN){
 
-                    currentTrialTouchDownTimeStamp = System.currentTimeMillis(); // Record the time stamp of touch down
-
+                    //currentTrialTouchDownTimeStamp = System.currentTimeMillis(); // Record the time stamp of touch down
+                    //currentTrialTouchDownTimeStamp=getCurrentTime();
+                    long curSystemTime=System.currentTimeMillis();
+                    currentTrialTouchDownTimeStamp=initialTimeStamp+curSystemTime-initialSystemTime;
                 	touchDownX = event.getX();   // Record the Touch Down x- coordinate Location
                     touchDownY = event.getY();   // Record the Touch Down y- coordinate Location
                     pressure = event.getPressure();                    
@@ -220,8 +247,10 @@ public class TwoDFittsTask extends Activity  {
 
                 if (event.getAction() == MotionEvent.ACTION_UP){
 
-                    currentTrialLiftUpTimeStamp = System.currentTimeMillis();  // Record the time stamp of lift up
-
+                    //currentTrialLiftUpTimeStamp = System.currentTimeMillis();  // Record the time stamp of lift up
+                    //currentTrialLiftUpTimeStamp=getCurrentTime();
+                    long curSystemTime=System.currentTimeMillis();
+                    currentTrialLiftUpTimeStamp=initialTimeStamp+curSystemTime-initialSystemTime;
                     // Record the Lift Up Locations
                     liftUpX = event.getX();
                     liftUpY = event.getY();
@@ -367,7 +396,11 @@ public class TwoDFittsTask extends Activity  {
     	trial++;      // Increase the trial number
 
     	chronoMeter.start();    // Start the timer
-    	startTime = System.currentTimeMillis();  // start counting the time
+    	//startTime = System.currentTimeMillis();  // start counting the time
+        //startTime=getCurrentTime();
+        long curSystemTime=System.currentTimeMillis();
+        startTime=initialTimeStamp+curSystemTime-initialSystemTime;
+
     	chronoMeter.setBase(SystemClock.elapsedRealtime()+ startChronometer); // set the chrono meter from 0
     
     	ongoingTrial = true;   // Indicates an ongoing Trial
@@ -534,6 +567,7 @@ public class TwoDFittsTask extends Activity  {
 
     // Initialize Everything in the Layout and Activity
 
+
     public void initializeEverything(){
 
 
@@ -593,8 +627,34 @@ public class TwoDFittsTask extends Activity  {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-    }
 
+
+
+
+
+
+    }
+    public long getCurrentTime(){
+        long timestamp=0;
+        try {
+            TimeTCPClient client = new TimeTCPClient();
+            try {
+                // Set timeout of 60 seconds
+                client.setDefaultTimeout(6000);
+                // Connecting to time server
+                // Other time servers can be found at : http://tf.nist.gov/tf-cgi/servers.cgi#
+                // Make sure that your program NEVER queries a server more frequently than once every 4 seconds
+                client.connect("time-c.nist.gov");
+                timestamp=client.getTime();
+                System.out.println(timestamp);
+            } finally {
+                client.disconnect();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
     public void getGroup(){
     	
     
@@ -705,6 +765,7 @@ public class TwoDFittsTask extends Activity  {
             targetXmm=targetX*pixelTomm;
             targetYmm=targetY*pixelTomm;
             try {
+
                 out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+pressure + "," + firstTouchDownX + "," + firstTouchDownY + "," + firstLiftUpX + "," + firstLiftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE);
                 out.write('\n');
                 out.close();

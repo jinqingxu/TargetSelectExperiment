@@ -48,6 +48,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/irene/Desktop/Experiment Software/app/libs/commons-net-3.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="643cc426b9f75aa111fac0fac0e52ff5d991a337">
+        <dex dex="/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/2/commons-net-3.0.1_c46a4c852d07d4f6554ff940914b31be41cf3d54/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/irene/Desktop/Experiment Software/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
@@ -81,6 +90,15 @@
         revision="26.0.0"
         sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
         <dex dex="/Users/irene/Desktop/Experiment Software/app/build/intermediates/pre-dexed/debug/classes_c7fd34d46e68d7e1d7b4a10a913917acaff3fd86.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/irene/Desktop/Experiment Software/app/libs/volley.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4a94601db9bdfb7dc60efabb3dea91a0675f591d">
+        <dex dex="/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/2/volley_67e3863be081dd1bb192b8395e954fbe49417dee/classes.dex" />
     </item>
     <item
         is-multidex="false"

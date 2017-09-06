@@ -6,7 +6,7 @@
     density="xhdpi"
     format="10"
     plugin-version="2.3.3"
-    timestamp="1504219644236"
+    timestamp="1504659011796"
     token="-5822203988683836376"
     verifier="COLD_SWAP_REQUESTED" >
 
@@ -25,17 +25,17 @@
 
     <build
         build-mode="FULL"
-        timestamp="1504219468471"
+        timestamp="1504657594442"
         verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="/Users/irene/Desktop/Experiment Software/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
+            type="SPLIT" />
         <artifact
             location="/Users/irene/Desktop/Experiment Software/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
             location="/Users/irene/Desktop/Experiment Software/app/build/outputs/apk/app-debug.apk"
             type="SPLIT_MAIN" />
-        <artifact
-            location="/Users/irene/Desktop/Experiment Software/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
-            type="SPLIT" />
         <artifact
             location="/Users/irene/Desktop/Experiment Software/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
@@ -66,7 +66,18 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1504219644236"
+        timestamp="1504658978733"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/Users/irene/Desktop/Experiment Software/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/irene/Desktop/Experiment Software/app/build/outputs/apk/app-debug.apk"
+            type="SPLIT_MAIN" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1504659011796"
         verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>
