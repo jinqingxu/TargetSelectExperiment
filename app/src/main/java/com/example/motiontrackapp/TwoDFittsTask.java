@@ -143,10 +143,10 @@ public class TwoDFittsTask extends Activity  {
     double firstTouchDownX,firstTouchDownY,firstLiftUpX,firstLiftUpY;
     double startXmm,startYmm,targetXmm,targetYmm; // written into the file
 
-    private static final Object TAG = new Object();
-    long initialSystemTime=0;
-    long initialTimeStamp=0;
-
+    private static final Object TAG = new Object(); //used for volley network request
+    long diffTimestamp=0; // represent the difference between the timestamp
+    long beginClock=0; // record the begin time of the request
+    long endClock=0; // record the end time of the request
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -209,10 +209,10 @@ public class TwoDFittsTask extends Activity  {
             	
                 if (event.getAction() == MotionEvent.ACTION_DOWN){
 
-                    //currentTrialTouchDownTimeStamp = System.currentTimeMillis(); // Record the time stamp of touch down
-                    //currentTrialTouchDownTimeStamp=getCurrentTime();
+
                     long curSystemTime=System.currentTimeMillis();
-                    currentTrialTouchDownTimeStamp=initialTimeStamp+curSystemTime-initialSystemTime;
+                    currentTrialTouchDownTimeStamp=curSystemTime+diffTimestamp; // the timstamp of android should be synchronous to that of laptop, so we need to add the offset
+
                 	touchDownX = event.getX();   // Record the Touch Down x- coordinate Location
                     touchDownY = event.getY();   // Record the Touch Down y- coordinate Location
                     pressure = event.getPressure();                    
@@ -246,11 +246,8 @@ public class TwoDFittsTask extends Activity  {
 
 
                 if (event.getAction() == MotionEvent.ACTION_UP){
-
-                    //currentTrialLiftUpTimeStamp = System.currentTimeMillis();  // Record the time stamp of lift up
-                    //currentTrialLiftUpTimeStamp=getCurrentTime();
                     long curSystemTime=System.currentTimeMillis();
-                    currentTrialLiftUpTimeStamp=initialTimeStamp+curSystemTime-initialSystemTime;
+                    currentTrialLiftUpTimeStamp=curSystemTime+diffTimestamp;
                     // Record the Lift Up Locations
                     liftUpX = event.getX();
                     liftUpY = event.getY();
@@ -397,13 +394,44 @@ public class TwoDFittsTask extends Activity  {
 
     	chronoMeter.start();    // Start the timer
     	//startTime = System.currentTimeMillis();  // start counting the time
-        //startTime=getCurrentTime();
-        long curSystemTime=System.currentTimeMillis();
-        startTime=initialTimeStamp+curSystemTime-initialSystemTime;
+
+
 
     	chronoMeter.setBase(SystemClock.elapsedRealtime()+ startChronometer); // set the chrono meter from 0
     
     	ongoingTrial = true;   // Indicates an ongoing Trial
+
+        String ipadress="142.157.179.240"; //the ip address of the server
+        String url="http://"+ipadress+":8080/api/getTime";  // the url of the request
+        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext()); //volley request queue
+        // construct a volley network GET request
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>(){
+            public void onResponse(JSONObject result){ // the response function is asynchronous from the request
+                try {
+                    endClock=System.currentTimeMillis(); // the end timestamp of receiving respond from the server
+                    long rtt=endClock-beginClock; // Round-Trip Time of a network request
+                    long delay=Math.round(rtt*0.5); //the delay should be half of the rtt
+                    long laptopTime=(long)result.get("time")+delay; //get the current timestamp from laptop. It should add the delay time
+                    long systemTime=System.currentTimeMillis(); //get the current timestamp from android system
+                    diffTimestamp=laptopTime-systemTime; // get the difference. After that,each time we record timestamp in android,the difference should be added.
+                    startTime=laptopTime; // in an initialization function,we need to record the startTime of a trial
+                }
+                catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+            }
+        });
+        request.setTag(TAG);
+        requestQueue.add(request); // add the request to the queue,then it will be sended
+        beginClock=System.currentTimeMillis(); // the begin timestamp of sending network request
+
     
     }
     
@@ -634,27 +662,7 @@ public class TwoDFittsTask extends Activity  {
 
 
     }
-    public long getCurrentTime(){
-        long timestamp=0;
-        try {
-            TimeTCPClient client = new TimeTCPClient();
-            try {
-                // Set timeout of 60 seconds
-                client.setDefaultTimeout(6000);
-                // Connecting to time server
-                // Other time servers can be found at : http://tf.nist.gov/tf-cgi/servers.cgi#
-                // Make sure that your program NEVER queries a server more frequently than once every 4 seconds
-                client.connect("time-c.nist.gov");
-                timestamp=client.getTime();
-                System.out.println(timestamp);
-            } finally {
-                client.disconnect();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return timestamp;
-    }
+
     public void getGroup(){
     	
     
@@ -764,6 +772,7 @@ public class TwoDFittsTask extends Activity  {
             startYmm=startY*pixelTomm;
             targetXmm=targetX*pixelTomm;
             targetYmm=targetY*pixelTomm;
+
             try {
 
                 out.write(group+","+pid + "," + block + "," + trial + "," +   targetDistance + ","+   targetDistanceMM + ","+ targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + attempt + "," + error1+","+pressure + "," + firstTouchDownX + "," + firstTouchDownY + "," + firstLiftUpX + "," + firstLiftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+finalTrialTouchDownTimeStamp +","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ "," +startTime +","+ firstreEntry +","+TRE);
@@ -801,6 +810,7 @@ public class TwoDFittsTask extends Activity  {
             File file = new File(Dir, fileName);
             double targetDistanceMM=targetDistance*pixelTomm;
             double targetWidthMM=targetWidth*pixelTomm;
+
 
             try{
 
