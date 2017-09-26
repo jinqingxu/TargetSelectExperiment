@@ -337,13 +337,17 @@ public class TwoDCalibTask extends Activity  {
         else{
             targetX += targetCor[i][0] * targetWidths[1];}
 
+
+
+        targetX=screenWidth/2;
+        targetY=screenHeight/2;
         //the center point
         if(i==0){
             targetX=screenWidth/2;
             targetY=screenHeight/2;
         }
         //some edge points
-        if(i==1){
+        /*if(i==1){
             targetX=screenWidth/2+width;
             targetY=screenHeight/2;
         }
@@ -363,7 +367,7 @@ public class TwoDCalibTask extends Activity  {
         if(i==5){
             targetX=screenWidth/2;
             targetY=screenHeight/2;
-        }
+        }*/
 
 
 

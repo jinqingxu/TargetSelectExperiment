@@ -11,7 +11,7 @@ public class TaskConditionsArray {
     TaskConditions targetProperties [] ;
     public TaskConditionsArray(int i) {
 
-        targetProperties = new TaskConditions[i];
+        targetProperties = new TaskConditions[i+1]; // out of boundary bug fixed by Irene:the trial begins with 1,the max index should be maxtrial
     }
 
     // Populates the Target Array with the given angles, distances and widths
@@ -31,6 +31,7 @@ public class TaskConditionsArray {
             }
 
         }
+        targetProperties[arrayIndex] = new TaskConditions(angles[0], distances[0], widths[0]); // out of boundary bug fixed by Irene:since the trial number begins with 1, the max index should be maxtrial
 
     }   // END OF buildArray(int angles[], int distances [], double widths[]
 
@@ -43,7 +44,7 @@ public class TaskConditionsArray {
         int j;
         TaskConditions temp;
 
-        for (int i = targetProperties.length-1; i > 1; i--) {
+        for (int i = targetProperties.length-1; i >1; i--) {
 
             // Swaps two elements [i] and [j] of the target array
             j = random.nextInt(i);

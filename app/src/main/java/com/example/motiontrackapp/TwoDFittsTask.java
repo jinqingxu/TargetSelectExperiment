@@ -86,13 +86,15 @@ public class TwoDFittsTask extends Activity  {
 
     TaskConditionsArray targetArray;
     //int [] targetAngles = {0,45,90,135,180,225,270,315,360};
-    int [] targetAngles = {0,0,0,0,180,180,180,180};
+    int [] targetAngles = {0,45,90,135,180,225,270,315};
 
     //double pixelTomm=  0.0794;       //Irene
     double pixelTomm=0.088194;     // website
-    //int [] targetDistances = {252, 504};   //  Irene: mm to px in xxhdpi: 20 mm, 40 mm
-    //int [] targetDistances = {227,454};     //webiste
-    int [] targetDistances = {227,227};     //webiste
+    //int [] targetDistances = {252, 504};   //  Irene: mm to px in xxhdpi: 20 mm,30mm 40 mm
+    //int [] targetDistances = {227,341,454};     //webiste: 20 mm,30mm 40 mm
+    //int [] targetDistances = {227,227};     //webiste 20mm
+    int [] targetDistances = {341,341};     //webiste 30mm
+    //int [] targetDistances = {454,454};     //webiste 40mm
 
     // new pixel calculated by Irene
     // DPI means how manys pixels per inch
@@ -107,6 +109,7 @@ public class TwoDFittsTask extends Activity  {
     //double [] targetWidths = {55.33228,81.86457,104.54173}; //webiste
     double [] targetWidths = {55.33,55.33,55.33}; //webiste
 
+
     //the max distance of 0 degree is 920 pixel
     //the max distance of 45 is 850 pixel
     //the max distance of 90 is 550 pixel
@@ -119,8 +122,8 @@ public class TwoDFittsTask extends Activity  {
     //int max_trial = targetAngles.length * targetDistances.length * targetWidths.length;
     public static int maxTrial = 0; // record the max trial for each block, static because it should be calculated in another class
     int trialBlock_maxTrial = 1;
-    int fullBlock_maxTrial =10 ;
-    int maxBlock = 1;
+    int fullBlock_maxTrial = 48;
+    int maxBlock = 2;
 
     int group = 0; // 1 represents older adults, while 2 represents young people
     int error ,SlipError , NarrowSlipError ,ModerateSlipError , LargeSlipError, VeryLargeSlipError, MissError,NearMissError,NotSoNearMissError,AccidentalTap,OtherError, AccidentalHit;
@@ -147,6 +150,7 @@ public class TwoDFittsTask extends Activity  {
     long diffTimestamp=0; // represent the difference between the timestamp
     long beginClock=0; // record the begin time of the request
     long endClock=0; // record the end time of the request
+    int k=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -259,11 +263,12 @@ public class TwoDFittsTask extends Activity  {
                         firstTrialLiftUpTimeTaken = currentTrialLiftUpTimeTaken;
                         firstLiftUpX=liftUpX;
                         firstLiftUpY=liftUpY;
+                        //calculateErrors();  // Calculate the Error Type //will be in the python code
+
 
                     }
                      
                     getRelativeLocationfromTarget();
-                    calculateErrors();  // Calculate the Error Type
 
 
                     /*****
@@ -401,7 +406,7 @@ public class TwoDFittsTask extends Activity  {
     
     	ongoingTrial = true;   // Indicates an ongoing Trial
 
-        String ipadress="142.157.179.240"; //the ip address of the server
+        String ipadress="142.157.178.78"; //the ip address of the server
         String url="http://"+ipadress+":8080/api/getTime";  // the url of the request
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext()); //volley request queue
         // construct a volley network GET request
@@ -708,7 +713,7 @@ public class TwoDFittsTask extends Activity  {
     public void calculateStartCenter(){
         startX = frame.getWidth()/2;
         startY = frame.getHeight()/2;
-        int t=0;
+
     }
 
     // Draw a target with given angle, distance and width
@@ -933,8 +938,11 @@ public class TwoDFittsTask extends Activity  {
 
         // Choice 1: Start the Next Trial
         //If more Trials left: Enable the Start Button
-
+        if(k==46){
+            int t=0;
+        }
         if(trial < maxTrial){
+            k++;
             // Initialize everything to start a new trial
             btnStart.setEnabled(true);
             btnStart.setImageResource(R.drawable.start_button_blue);
