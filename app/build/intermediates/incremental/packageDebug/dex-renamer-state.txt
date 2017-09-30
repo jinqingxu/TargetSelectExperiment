@@ -1,4 +1,4 @@
-#Tue Aug 22 11:50:18 EDT 2017
+#Sat Sep 30 15:19:38 EDT 2017
 base.0=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_efd2781150c00d18bd5a5df6f00b2243a63866e1
 renamed.1=classes.dex
 renamed.0=classes2.dex

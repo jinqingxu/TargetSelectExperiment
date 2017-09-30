@@ -1,4 +1,4 @@
-#Tue Sep 05 20:26:43 EDT 2017
+#Sat Sep 30 15:17:05 EDT 2017
 file.2=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_5752173781c2184133830aad6942b73f2f4ccffc/classes.dex
 base.2=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_5752173781c2184133830aad6942b73f2f4ccffc
 file.1=/Users/irene/Desktop/Experiment Software/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_ab9f8dddfe228fa0b6db7873c20e96683cc83637/classes.dex

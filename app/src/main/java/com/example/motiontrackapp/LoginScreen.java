@@ -32,13 +32,14 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Scanner;
 
 
 import com.leapmotion.leap.*;
 
 
 public class LoginScreen extends Activity {
+
+    int mode=1; // 0 represents crosshair and 1 represents real experiment
 	
     Button login;
     EditText pidInput;
@@ -71,8 +72,11 @@ public class LoginScreen extends Activity {
                     //initializeLeapMotion();   // LEAP MOTION CODE STOPS THE ANDROID APP NEED TO FIX
  
                    // startActivity(new Intent(LoginScreen.this,FingerCalibInstructions.class)); // switch to next activity
-                    startActivity(new Intent(LoginScreen.this,TwoDInstructions.class)); // switch to next activity
-                    //startActivity(new Intent(LoginScreen.this,TwoDCalibInstructions.class)); // switch to next activity
+                    if(mode==1) {
+                        startActivity(new Intent(LoginScreen.this, TwoDInstructions.class)); // switch to next activity
+                    }
+                    else
+                    startActivity(new Intent(LoginScreen.this,TwoDCalibInstructions.class)); // switch to next activity
 
                 }
 

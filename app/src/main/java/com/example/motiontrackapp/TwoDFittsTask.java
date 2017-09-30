@@ -12,23 +12,12 @@
 
 package com.example.motiontrackapp;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -63,11 +52,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import org.apache.commons.net.time.TimeTCPClient;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 public class TwoDFittsTask extends Activity  {
+    String ipAdress="142.157.179.209"; //the ip address of the server
 
     ImageButton btnStart;     // Button to start the Finger Calibration Task
     TextView txtExit;         // Link to go back to the Login Page
@@ -91,9 +80,9 @@ public class TwoDFittsTask extends Activity  {
     //double pixelTomm=  0.0794;       //Irene
     double pixelTomm=0.088194;     // website
     //int [] targetDistances = {252, 504};   //  Irene: mm to px in xxhdpi: 20 mm,30mm 40 mm
-    //int [] targetDistances = {227,341,454};     //webiste: 20 mm,30mm 40 mm
+    int [] targetDistances = {227,341,454};     //webiste: 20 mm,30mm 40 mm
     //int [] targetDistances = {227,227};     //webiste 20mm
-    int [] targetDistances = {341,341};     //webiste 30mm
+    //int [] targetDistances = {341,341};     //webiste 30mm
     //int [] targetDistances = {454,454};     //webiste 40mm
 
     // new pixel calculated by Irene
@@ -107,7 +96,7 @@ public class TwoDFittsTask extends Activity  {
     // pixel data from website
     // 1 mm = 11.3385827 pixel
     //double [] targetWidths = {55.33228,81.86457,104.54173}; //webiste
-    double [] targetWidths = {55.33,55.33,55.33}; //webiste
+    double [] targetWidths = {55.33,81.8645,104.54173}; //webiste
 
 
     //the max distance of 0 degree is 920 pixel
@@ -122,8 +111,8 @@ public class TwoDFittsTask extends Activity  {
     //int max_trial = targetAngles.length * targetDistances.length * targetWidths.length;
     public static int maxTrial = 0; // record the max trial for each block, static because it should be calculated in another class
     int trialBlock_maxTrial = 1;
-    int fullBlock_maxTrial = 48;
-    int maxBlock = 2;
+    int fullBlock_maxTrial = 72;
+    int maxBlock = 3;
 
     int group = 0; // 1 represents older adults, while 2 represents young people
     int error ,SlipError , NarrowSlipError ,ModerateSlipError , LargeSlipError, VeryLargeSlipError, MissError,NearMissError,NotSoNearMissError,AccidentalTap,OtherError, AccidentalHit;
@@ -406,8 +395,8 @@ public class TwoDFittsTask extends Activity  {
     
     	ongoingTrial = true;   // Indicates an ongoing Trial
 
-        String ipadress="142.157.178.78"; //the ip address of the server
-        String url="http://"+ipadress+":8080/api/getTime";  // the url of the request
+
+        String url="http://"+ipAdress+":8080/api/getTime";  // the url of the request
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext()); //volley request queue
         // construct a volley network GET request
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,

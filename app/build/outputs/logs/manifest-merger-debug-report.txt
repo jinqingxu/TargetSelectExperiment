@@ -84,7 +84,7 @@ ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest
 	android:label
 		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:26:13-45
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:25:13-40
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:25:13-66
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:27:13-30:29
 action#android.intent.action.MAIN
@@ -98,7 +98,7 @@ ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest
 activity#com.example.motiontrackapp.FingerCalibInstructions
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:33:10-38:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:33:20-59
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:33:20-85
 intent-filter#android.intent.action.FingerCalibInstructions+android.intent.category.DEFAULT
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:34:13-37:29
 action#android.intent.action.FingerCalibInstructions
@@ -112,19 +112,19 @@ ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest
 activity#com.example.motiontrackapp.TwoDCalibTask
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:41:9-46:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:41:19-48
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:41:19-74
 activity#com.example.motiontrackapp.TwoDCalibInstructions
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:48:9-53:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:48:19-56
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:48:19-82
 activity#com.example.motiontrackapp.TwoDCalibToTwoDTask
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:55:9-60:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:55:19-54
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:55:19-80
 activity#com.example.motiontrackapp.FingerCalibTask
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:63:9-68:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:63:19-50
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:63:19-76
 intent-filter#android.intent.action.FingerCalibTask+android.intent.category.DEFAULT
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:64:13-67:29
 action#android.intent.action.FingerCalibTask
@@ -134,27 +134,27 @@ ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest
 activity#com.example.motiontrackapp.FingerCalibToTwoDCalib
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:70:9-75:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:70:19-57
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:70:19-83
 activity#com.example.motiontrackapp.NextBlockFingerCalib
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:77:9-82:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:77:19-55
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:77:19-81
 activity#com.example.motiontrackapp.TwoDFittsTask
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:84:9-89:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:84:19-48
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:84:19-74
 activity#com.example.motiontrackapp.TwoDInstructions
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:91:9-96:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:91:19-51
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:91:19-77
 activity#com.example.motiontrackapp.LastScreen
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:99:9-104:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:99:19-45
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:99:19-71
 activity#com.example.motiontrackapp.NextBlockTwoD
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:107:9-112:20
 	android:name
-		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:107:19-48
+		ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:107:19-74
 activity#com.example.motiontrackapp.FFittsAndroidApp.blank
 ADDED from /Users/irene/Desktop/Experiment Software/app/src/main/AndroidManifest.xml:114:9-119:20
 	android:name

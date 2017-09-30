@@ -1,12 +1,6 @@
 package com.example.motiontrackapp;
 
 import com.leapmotion.leap.*;
-import com.leapmotion.leap.Gesture.State;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
 
 
 public class LeapListener extends Listener{
