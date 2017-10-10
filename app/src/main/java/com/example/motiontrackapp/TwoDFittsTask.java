@@ -27,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,7 +57,7 @@ import java.io.OutputStreamWriter;
 import org.json.JSONObject;
 
 public class TwoDFittsTask extends Activity  {
-    String ipAdress="142.157.179.209"; //the ip address of the server
+    String ipAddress="142.157.179.219"; //the ip address of the server
 
     ImageButton btnStart;     // Button to start the Finger Calibration Task
     TextView txtExit;         // Link to go back to the Login Page
@@ -139,7 +140,11 @@ public class TwoDFittsTask extends Activity  {
     long diffTimestamp=0; // represent the difference between the timestamp
     long beginClock=0; // record the begin time of the request
     long endClock=0; // record the end time of the request
-    int k=0;
+
+    private int right, wrong, count ; // audio resources
+    private MediaPlayer mp = new MediaPlayer();
+
+    //int k=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -278,7 +283,21 @@ public class TwoDFittsTask extends Activity  {
                     if(isSelectionInsideTarget(liftUpX, liftUpY)){
 
                         chronoMeter.stop();   // Stop the timer
-                        sp.play(rightSound,1,1,0,0,1); //play the right audio
+                        //sp.play(rightSound,1,1,0,0,1); //play the right audio
+                        //streamID= sp.play(count, 1, 1, 0, 0, 1);  //streamID is used for stopping the count tone
+                        try {
+                            //mp.setDataSource("/Users/carmen/Documents/CarmenGoing/FFittsAndroidApp/app/src/main/res/raw/count");
+
+                            mp = MediaPlayer.create(TwoDFittsTask.this, R.raw.right); //play the right sound
+                            //mp.prepare();
+                            //mp.start();
+                            //try to make the touch time shorter so that it can be more accurate
+
+                        } catch (IllegalArgumentException e) {
+                            e.printStackTrace();
+                        }
+
+
 
                         touchDownAll += (finalTrialTouchDownTimeTaken/attempt) ; //add up all the average final time for each trial together, be used in the next activity to show the feedback of time to the participants
   
@@ -395,8 +414,13 @@ public class TwoDFittsTask extends Activity  {
     
     	ongoingTrial = true;   // Indicates an ongoing Trial
 
+        adjustTimeStamp();
 
-        String url="http://"+ipAdress+":8080/api/getTime";  // the url of the request
+    
+    }
+    public void adjustTimeStamp(){
+
+        String url="http://"+ipAddress+":8080/api/getTime";  // the url of the request
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext()); //volley request queue
         // construct a volley network GET request
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -426,9 +450,7 @@ public class TwoDFittsTask extends Activity  {
         requestQueue.add(request); // add the request to the queue,then it will be sended
         beginClock=System.currentTimeMillis(); // the begin timestamp of sending network request
 
-    
     }
-    
     // Calculate ALL Types of Errors
     
     public void calculateErrors(){
@@ -649,12 +671,6 @@ public class TwoDFittsTask extends Activity  {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-
-
-
-
-
-
     }
 
     public void getGroup(){
@@ -794,7 +810,14 @@ public class TwoDFittsTask extends Activity  {
 
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){ // If the External Storage is Mounted, then write on the file
 
-            File Dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MotionTracAppFile");
+            File Dir = null;
+            File Root = Environment.getExternalStorageDirectory();  // Return the primary shared/external storage directory
+            if(Double.parseDouble(pid)<200){
+                Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile/TargetSelect Experiment/Old Adults/");
+            }
+            else{
+                Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile/TargetSelect Experiment/Young Adults/");
+            }
 
             if(!Dir.exists()){    // If the Directory does not exist, make the directory
 
@@ -809,7 +832,7 @@ public class TwoDFittsTask extends Activity  {
             try{
 
                 BufferedWriter out = new BufferedWriter(new FileWriter(file, true));   //  FileWriter(file, true ) appends on the file
-                out.write(group+","+pid + "," + block + "," + trial + "," + targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + pressure + "," +startTime +","+targetX+","+targetY+","+ touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," + firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
+                out.write(group+","+pid + "," + block + "," + trial + "," + targetDistance + ","+targetDistanceMM+"," +targetWidth + "," +targetWidthMM+"," + targetAngle  + "," + select + "," + pressure + "," +targetX+","+targetY+","+ touchDownX + "," + touchDownY + "," + liftUpX + "," + liftUpY + "," +startTime +","+ firstTrialTouchDownTimeStamp+","+ firstTrialTouchDownTimeTaken + ","+ firstTrialLiftUpTimeStamp+"," + firstTrialLiftUpTimeTaken + ","+ finalTrialTouchDownTimeStamp + ","+ finalTrialTouchDownTimeTaken + "," + finalTrialLiftUpTimeStamp +","+ finalTrialLiftUpTimeTaken+ ","+firstreEntry +"," + TRE);
                 out.write('\n');
                 out.close();
 
@@ -865,7 +888,15 @@ public class TwoDFittsTask extends Activity  {
 
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){   // If the External Storage is Mounted, then write on the file
 
-            File Dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MotionTracAppFile");
+
+            File Dir = null;
+            File Root = Environment.getExternalStorageDirectory();  // Return the primary shared/external storage directory
+            if(Double.parseDouble(pid)<200){
+                Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile/TargetSelect Experiment/Old Adults/");
+            }
+            else{
+                Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile/TargetSelect Experiment/Young Adults/");
+            }
 
             if(!Dir.exists())		// If the Directory does not exist, make the directory
                 Dir.mkdir();
@@ -927,11 +958,9 @@ public class TwoDFittsTask extends Activity  {
 
         // Choice 1: Start the Next Trial
         //If more Trials left: Enable the Start Button
-        if(k==46){
-            int t=0;
-        }
+
         if(trial < maxTrial){
-            k++;
+
             // Initialize everything to start a new trial
             btnStart.setEnabled(true);
             btnStart.setImageResource(R.drawable.start_button_blue);

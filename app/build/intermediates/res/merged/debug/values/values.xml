@@ -340,6 +340,7 @@
     <string name="search_menu_title">Search</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="thank_you_finger_calib">Thank you for completing this block of the Finger Calibration Task.</string>
+    <string name="warmup">Please do warm up before you start.</string>
     <string name="welcome">Welcome to FFitts Experiment</string>
     <string name="yes">YES</string>
     <string name="your_score_is">Your Score is:</string>

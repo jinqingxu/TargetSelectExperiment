@@ -1804,7 +1804,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0b0042;
         public static final int action_mode_bar_stub=0x7f0b0041;
         public static final int action_mode_close_button=0x7f0b0026;
-        public static final int action_settings=0x7f0b008a;
+        public static final int action_settings=0x7f0b008b;
         public static final int activity_chooser_view_content=0x7f0b0027;
         public static final int add=0x7f0b0013;
         public static final int alertTitle=0x7f0b0033;
@@ -1813,11 +1813,11 @@ containing a value of this type.
         public static final int beginning=0x7f0b001a;
         public static final int bottom=0x7f0b0022;
         public static final int btnLogin=0x7f0b0066;
-        public static final int btnStart=0x7f0b0082;
+        public static final int btnStart=0x7f0b0083;
         public static final int buttonPanel=0x7f0b002e;
         public static final int cancel_action=0x7f0b006f;
         public static final int checkbox=0x7f0b003c;
-        public static final int chronoMeter=0x7f0b0080;
+        public static final int chronoMeter=0x7f0b0081;
         public static final int chronometer=0x7f0b0075;
         public static final int collapseActionView=0x7f0b001e;
         public static final int contentPanel=0x7f0b0034;
@@ -1833,12 +1833,12 @@ containing a value of this type.
         public static final int expanded_menu=0x7f0b003b;
         public static final int fingerCalibScore=0x7f0b0068;
         public static final int fingerCalibScore2=0x7f0b005e;
-        public static final int frameLayout=0x7f0b007f;
-        public static final int frameLayoutFinger2DCalib=0x7f0b007c;
+        public static final int frameLayout=0x7f0b0080;
+        public static final int frameLayoutFinger2DCalib=0x7f0b007d;
         public static final int frameLayoutFingerCalib=0x7f0b005a;
         public static final int goToFingerCalib=0x7f0b0059;
-        public static final int goToFingerTwoDCalib=0x7f0b007b;
-        public static final int goToTwoD=0x7f0b0089;
+        public static final int goToFingerTwoDCalib=0x7f0b007c;
+        public static final int goToTwoD=0x7f0b008a;
         public static final int home=0x7f0b0004;
         public static final int homeAsUp=0x7f0b000d;
         public static final int icon=0x7f0b002c;
@@ -1846,7 +1846,7 @@ containing a value of this type.
         public static final int image=0x7f0b0029;
         public static final int info=0x7f0b0079;
         public static final int inpPID=0x7f0b0065;
-        public static final int linLayoutFinger2DCalib=0x7f0b007d;
+        public static final int linLayoutFinger2DCalib=0x7f0b007e;
         public static final int linLayoutFingerCalib=0x7f0b005b;
         public static final int line1=0x7f0b0073;
         public static final int line3=0x7f0b0077;
@@ -1862,7 +1862,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f0b0005;
         public static final int progress_horizontal=0x7f0b0006;
         public static final int radio=0x7f0b003e;
-        public static final int relLayoutTwoD=0x7f0b0081;
+        public static final int relLayoutTwoD=0x7f0b0082;
         public static final int screen=0x7f0b0015;
         public static final int scrollIndicatorDown=0x7f0b0038;
         public static final int scrollIndicatorUp=0x7f0b0035;
@@ -1895,18 +1895,19 @@ containing a value of this type.
         public static final int text2=0x7f0b0076;
         public static final int textSpacerNoButtons=0x7f0b0037;
         public static final int textView=0x7f0b0064;
-        public static final int textView10=0x7f0b0086;
-        public static final int textView11=0x7f0b0085;
-        public static final int textView12=0x7f0b0083;
+        public static final int textView10=0x7f0b0087;
+        public static final int textView11=0x7f0b0086;
+        public static final int textView12=0x7f0b0084;
         public static final int textView13=0x7f0b0088;
+        public static final int textView19=0x7f0b0089;
         public static final int textView2=0x7f0b0063;
         public static final int textView3=0x7f0b0057;
         public static final int textView4=0x7f0b0058;
         public static final int textView5=0x7f0b0055;
         public static final int textView6=0x7f0b0056;
         public static final int textView7=0x7f0b0069;
-        public static final int textView8=0x7f0b0084;
-        public static final int textView9=0x7f0b0087;
+        public static final int textView8=0x7f0b0085;
+        public static final int textView9=0x7f0b007b;
         public static final int time=0x7f0b0074;
         public static final int title=0x7f0b002d;
         public static final int title_template=0x7f0b0032;
@@ -1918,7 +1919,7 @@ containing a value of this type.
         public static final int twoDTouchDownAverage=0x7f0b006c;
         public static final int txtGoToLogin=0x7f0b005f;
         public static final int txtGoToTwoDCalib=0x7f0b005d;
-        public static final int txtGoToTwoDTask=0x7f0b007e;
+        public static final int txtGoToTwoDTask=0x7f0b007f;
         public static final int txtNextBlock=0x7f0b0067;
         public static final int txtNextBlockTwoD=0x7f0b006a;
         public static final int txtTrialNum=0x7f0b005c;
@@ -2041,9 +2042,10 @@ containing a value of this type.
         public static final int search_menu_title=0x7f060013;
         public static final int status_bar_notification_info_overflow=0x7f060014;
         public static final int thank_you_finger_calib=0x7f06002d;
-        public static final int welcome=0x7f06002e;
-        public static final int yes=0x7f06002f;
-        public static final int your_score_is=0x7f060030;
+        public static final int warmup=0x7f06002e;
+        public static final int welcome=0x7f06002f;
+        public static final int yes=0x7f060030;
+        public static final int your_score_is=0x7f060031;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f08008b;

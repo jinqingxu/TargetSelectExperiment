@@ -27,6 +27,15 @@ import android.widget.Toast;
 //import com.google.android.gms.common.api.GoogleApiClient;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -82,6 +91,12 @@ public class TwoDCalibTask extends Activity  {
 
     Canvas canvas;
     Paint paint;
+
+    String ipAdress="142.157.179.219"; //the ip address of the server
+    private static final Object TAG = new Object(); //used for volley network request
+    long diffTimestamp=0; // represent the difference between the timestamp
+    long beginClock=0; // record the begin time of the request
+    long endClock=0; // record the end time of the request
 
 
 
@@ -317,7 +332,39 @@ public class TwoDCalibTask extends Activity  {
 
         return Math.pow((targetX - X) * (targetX - X) + (targetY - Y) * (targetY - Y), 0.5);
     }
+    public void adjustTimeStamp(){
 
+        String url="http://"+ipAdress+":8080/api/getTime";  // the url of the request
+        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext()); //volley request queue
+        // construct a volley network GET request
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>(){
+            public void onResponse(JSONObject result){ // the response function is asynchronous from the request
+                try {
+                    endClock=System.currentTimeMillis(); // the end timestamp of receiving respond from the server
+                    long rtt=endClock-beginClock; // Round-Trip Time of a network request
+                    long delay=Math.round(rtt*0.5); //the delay should be half of the rtt
+                    long laptopTime=(long)result.get("time")+delay; //get the current timestamp from laptop. It should add the delay time
+                    long systemTime=System.currentTimeMillis(); //get the current timestamp from android system
+                    diffTimestamp=laptopTime-systemTime; // get the difference. After that,each time we record timestamp in android,the difference should be added.
+
+                }
+                catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+            }
+        });
+        request.setTag(TAG);
+        requestQueue.add(request); // add the request to the queue,then it will be sended
+        beginClock=System.currentTimeMillis(); // the begin timestamp of sending network request
+
+    }
     // draw the target to touch
     private void drawTarget() {
 

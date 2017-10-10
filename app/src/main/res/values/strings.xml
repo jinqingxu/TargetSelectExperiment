@@ -10,6 +10,7 @@
     <string name="finger_calibration_task">Finger Calibration Task</string>
     
     <string name="questions_ask">If you have any question, please ask the facilitator before you start.</string>
+    <string name="warmup">Please do warm up before you start.</string>
     <string name="ready">Are You Ready?</string>
     <string name="finger_calib_task">In this task, you need to select the target (a red circle) on the screen, as quickly and as accurately as you can.</string>
     <string name="finger_twoD_calib_task">In this task, you need to select the target (a red cross) on the screen, as quickly and as accurately as you can.</string>

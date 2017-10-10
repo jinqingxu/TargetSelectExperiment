@@ -112,7 +112,7 @@ public class LoginScreen extends Activity {
         //createInternalFile("PID_" + pid +  "_2D_Fitts_Detailed_Trial_Data_Internal.csv", "Two Dimensional Fitts Task Details", "PId,Block,Trial,Attempt,Width(pixel),Width(mm),Amplitude(pixel),Amplitude(mm),Direction,Error,Slip Error, Narrow Slip Error, Moderate Slip Error, Large Slip Error, Very Large Slip Error, Miss Error, Near Miss Error, Not So Near Miss Error, Other Error, Accidental Tap, Accidental Hit, Pressure, Target X, Target Y, Touch-Down X-cor, Relative Touch-Down X From Target,Touch-Down Y-cor, Relative Touch-Down Y From Target, Lift-Up X-cor,   Relative Lift-Up X From Start, Relative Lift-Up X From Target,Lift-Up Y-cor,  Relative Lift-Up Y From Start, Relative Lift-Up Y From Target, Final Touch-Down Distance From Target, Final Lift-Up Distance From Target,Current Touch-Down Time Taken,Current Lift-Up Time Taken, Touch-Down TimeStamp,Lift-Up TimeStamp,start Time,startX,startY,Re-entry");
         createInternalFile("PID_" + pid +  "_2D_FittsDetailed_Trial_Data_Internal.csv", "Two Dimensional Fitts Task Details", "PId,Block,Trial,Attempt,Width(pixel),Width(mm),Amplitude(pixel),Amplitude(mm),Direction,Pressure,Touch-Down Timestamp,Lift-Up Timestamp,Touch-Down X-cor,Touch-Down Y-cor,Lift-Up X-cor,Lift-Up Y-cor");
         createExternalFile("PID_" + pid + "_FingerCalibData_External.csv", "Finger Calibration Task", "PID,Block,Trial,Select,Width (pixel),Width (mm),Pressure,target X-cor,target Y-cor,touchDown X-cor,Relative TouchDown X-cor from Target,touchDown Y-cor,Relative TouchDown Y-cor from Target,Lift Up X-cor,Relative LiftUp X-cor from Target,LiftUp Y-cor,Relative LiftUp Y-cor from Target,Touch Down Time Stamp, Lift Up Time Stamp");
-        createExternalFile("PID_" + pid + "_TwoDFittsData_External.csv", "Two Dimensional Fitts Task", "Group,PId,Block,Trial,Amplitude (pixel),Amplitude (mm),Width (pixel),Width (mm),Direction (degree),Select, Pressure,startTime,targetX,targetY,First Touch-Down X-cor,First Touch-Down Y-cor,First Lift-Up X-cor,First Lift-Up Y-cor,First Touch-Down Timestamp,First Touch-Down Time Taken(ms),First Lift-Up Timestamp,First Lift-Up Time Taken(ms), Final Touch-Down Timestamp, Final Touch-Down Time Taken(ms),Final Lift-Up Timestamp, Final Lift-Up Time Taken(ms),First Re-Entry,TRE(/attempt)");
+        createExternalFile("PID_" + pid + "_TwoDFittsData_External.csv", "Two Dimensional Fitts Task", "Group,PId,Block,Trial,Amplitude (pixel),Amplitude (mm),Width (pixel),Width (mm),Direction (degree),Select, Pressure,targetX_Android(pixel),targetY_Android(pixel),First Touch-Down X-cor,First Touch-Down Y-cor,First Lift-Up X-cor,First Lift-Up Y-cor,startTime,First Touch-Down Timestamp,First Touch-Down Time Taken(ms),First Lift-Up Timestamp,First Lift-Up Time Taken(ms), Final Touch-Down Timestamp, Final Touch-Down Time Taken(ms),Final Lift-Up Timestamp, Final Lift-Up Time Taken(ms),First Re-Entry,TRE(/attempt)");
         //createExternalFile("PID_" + pid +  "_2D_FittsDetailedTrialData_External.csv", "Two Dimensional Fitts Task Details", "Group,PId,Block,Trial,Amplitude (pixel),Amplitude (mm),Width (pixel),Width (mm),Direction (degree),Attempt,Error,Slip Error, Narrow Slip Error, Moderate Slip Error, Large Slip Error, Very Large Slip Error, Miss Error, Near Miss Error, Not So Near Miss Error, Other Error, Accidental Tap, Accidental Hit, Pressure, Target X, Target Y, Touch-Down X-cor, Relative Touch-Down X From Target,Touch-Down Y-cor, Relative Touch-Down Y From Target, Lift-Up X-cor,   Relative Lift-Up X From Start, Relative Lift-Up X From Target,Lift-Up Y-cor,  Relative Lift-Up Y From Start, Relative Lift-Up Y From Target, Final Touch-Down Distance From Target, Final Lift-Up Distance From Target, Current Touch-Down Time Taken,Current Lift-Up Time Taken, Touch-Down TimeStamp,Lift-Up TimeStamp, start Time,startX,startY,Re-entry");
         createExternalFile("PID_" + pid +  "_2D_FittsDetailed_Trial_Data_External.csv", "Two Dimensional Fitts Task Details", "PId,Block,Trial,Attempt,Width(pixel),Width(mm),Amplitude(pixel),Amplitude(mm),Direction,Pressure,Touch-Down Timestamp,Lift-Up Timestamp,Touch-Down X-cor,Touch-Down Y-cor,Lift-Up X-cor,Lift-Up Y-cor");
         createBlockFile();    // Create a file to track the number of Blocks
@@ -184,13 +184,23 @@ public class LoginScreen extends Activity {
 
     private void createExternalFile(String fileName, String taskName, String dataHeading) {
 
+
+
         String state = Environment.getExternalStorageState(); //Returns the current state of the primary shared/external storage media.
 
         if(Environment.MEDIA_MOUNTED.equals(state)){    // MEDIA_MOUNTED: constant, storage state if the media is present and mounted at its mount point with read/write access.
 
             File Root = Environment.getExternalStorageDirectory();  // Return the primary shared/external storage directory
             //File Dir = new File(Root.getAbsolutePath() + "/MotionCaptureFile");
-            File Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile");
+            String[] fileName_list= fileName.split("_");
+            File Dir=null;
+            if(Double.parseDouble(fileName_list[1])<200){
+                Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile/TargetSelect Experiment/Old Adults/");
+            }
+            else{
+                Dir = new File(Root.getAbsolutePath() + "/MotionTracAppFile/TargetSelect Experiment/Young Adults/");
+            }
+
             
             if(!Dir.exists()){
                 Dir.mkdir();   // Creates the directory named by this abstract pathname if not existed
